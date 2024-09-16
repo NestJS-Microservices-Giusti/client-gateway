@@ -70,10 +70,12 @@ export class OrdersController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() statusDto: StatusDto,
   ) {
-    return this.ordersClient.send('changeOrderStatus', { id }).pipe(
-      catchError((err) => {
-        throw new RpcException(err);
-      }),
-    );
+    return this.ordersClient
+      .send('changeOrderStatus', { id, ...statusDto })
+      .pipe(
+        catchError((err) => {
+          throw new RpcException(err);
+        }),
+      );
   }
 }
